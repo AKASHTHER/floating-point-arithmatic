@@ -35,7 +35,7 @@ always @ (A_FP or B_FP)
                 e_B      = B_FP [14:10];
                 fract_a  = {1'b1,A_FP [9:0]};
                 fract_b  = {1'b1,B_FP [9:0]};
-	               //align fractions
+	               
                 if(sign_a == sign_b)
 	               begin
 	                   if (e_A < e_B)
@@ -50,21 +50,17 @@ always @ (A_FP or B_FP)
                                 fract_b  = fract_b >> shift_cnt;
                                 e_B  = e_B + shift_cnt;
                             end 
-	                   //add fractions
 	                   fract_c = fract_a + fract_b;
 		               {cout, fract_c}  = fract_a + fract_b;
-                        //e_B  = e_B + 1;
-
-                        //normalize result
                         if (cout==1)
                         begin
                             {cout, fract_c}  = {cout, fract_c} >> 1;
-                            //fract_c=fract_c<<1;
+                           
                             e_B = e_B + 1;
                         end
                         sign  = sign_a;
                         exponent  = e_B;
-                            //mantissa  = fract_c[22:0];
+                            
 	               end
             else
                 begin 
@@ -84,16 +80,12 @@ always @ (A_FP or B_FP)
                                           fract_c = fract_c << 1;
                                           exponent  = exponent-1;
                                         end
-                                    // mantissa  = fract_c[22:0];
+                                    
                                 end
-                        //  else
-                       //   begin
-                         //exponent  = e_A;
-                         // mantissa  = fract_c[22:0];
-                         // end
+                        
                         end
                     else
-                        //if (e_A>e_B)
+                        
                         begin
                            sign=sign_b;
                            shift_cnt=e_B-e_A;
@@ -108,9 +100,7 @@ always @ (A_FP or B_FP)
                                 end
                           if(fract_c!=11'b0)  
                                 begin
-                                  //  begin
-                                  //  end
-                                  //  else     
+                                      
                                     for(i=0;i<10;i=i+1)
                                         begin
                                             if(fract_c[10]==0)
@@ -118,14 +108,10 @@ always @ (A_FP or B_FP)
                                                 fract_c=fract_c<<1;
                                                 exponent  = exponent-1;
                                             end
-                                            //mantissa  = fract_c[22:0];
+                                            
                                         end
-                                // end
                                 end
-                               // else
-                               // begin
-                                //mantissa  = fract_c[22:0];
-                               // end 
+                              
                         end
         end
             mantissa= (fract_a==0 && fract_b==0)?10'b0:fract_c[9:0];
